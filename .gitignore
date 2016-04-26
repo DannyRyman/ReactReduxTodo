@@ -1,0 +1,14 @@
+# Client install
+npm-debug.log
+
+.fake
+output
+tools
+client/output
+client/tools
+server/tools
+server/output
+sh.exe.stackdump
+
+*.ncrunchproject
+*.ncrunchsolution
