@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Formatting;
 using System.Web.Http;
 using System.Web.Http.Dispatcher;
+using Newtonsoft.Json.Serialization;
 using TodoList.Support;
 
 namespace TodoList
@@ -17,7 +18,13 @@ namespace TodoList
 
             GlobalConfiguration.Configuration.Formatters.Clear();
 
-            GlobalConfiguration.Configuration.Formatters.Add(new JsonMediaTypeFormatter());
+            var jsonFormatter = new JsonMediaTypeFormatter
+            {
+                SerializerSettings = {ContractResolver = new CamelCasePropertyNamesContractResolver()}
+            };
+
+            GlobalConfiguration.Configuration.Formatters.Add(jsonFormatter);
+            
         }
     }
 }

@@ -1,3 +1,4 @@
+import thunkMiddleware from 'redux-thunk'
 import ReactDOM from 'react-dom'
 import React from 'react'
 import styles from './app.scss';
@@ -7,11 +8,12 @@ import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import rootReducer from './reducers/todo';
 import { Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 
 const lightMuiTheme = getMuiTheme(lightBaseTheme);
 
-let store = createStore(rootReducer);
+let store = createStore(rootReducer,
+	applyMiddleware(thunkMiddleware));
 
 ReactDOM.render(
 	<MuiThemeProvider muiTheme={lightMuiTheme}>

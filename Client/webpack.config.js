@@ -1,7 +1,7 @@
 var path=require('path');
 module.exports={
 	context:path.join(__dirname,'Source'),
-	entry:"./app",
+	entry: ['babel-polyfill', './app'],
 	output: {
 		path: path.join(__dirname,'dist'),
 		filename: "bundle.js"

@@ -1,11 +1,24 @@
-import React from 'react'
+import React, {Component} from 'react'
 import { connect } from 'react-redux';
 import { AppBar, FlatButton } from 'material-ui';
 import TodoList from './todolist';
-import { toggleShowCompleted } from '../../actions'
+import { toggleShowCompleted, loadInitialTodos } from '../../actions'
 
-let main = ({showCompleted, activeTodos, completedTodos, toggleShowCompleted}) => {	
-	return (			
+class main extends Component {
+	
+	componentWillMount() {
+		const {loadInitialTodos} = this.props;
+		loadInitialTodos();
+	}
+
+	render() {		
+		return this.props.isInitialised ? this.renderMainScreen() : this.renderLoading();
+	}
+
+	renderMainScreen() {
+		const {showCompleted, activeTodos, completedTodos, toggleShowCompleted} = this.props;
+		
+		return (						
 			<div>
 				<AppBar title="TODO List"></AppBar>
 
@@ -20,11 +33,17 @@ let main = ({showCompleted, activeTodos, completedTodos, toggleShowCompleted}) =
 				) : null}
 			</div>			
 		);
+	}
+
+	renderLoading() {
+		return (<div>Loading...</div>);
+	}
 }
 
 const mapStateToProps = (state) => {
 	return {		
 		showCompleted: state.get('ui').get('showCompleted'),
+		isInitialised: state.get('ui').get('isInitialised'),
 		activeTodos: state.get('todos').filter((todo) => todo.get('completed') !== true),
 		completedTodos: state.get('todos').filter((todo) => todo.get('completed') === true)
 	}
@@ -35,11 +54,13 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		toggleShowCompleted: () => {							
 			dispatch(toggleShowCompleted())
+		},
+		loadInitialTodos: () => {
+			dispatch(loadInitialTodos());
 		}
 	}
 }
 
-//main = connect(mapStateToProps,mapDispatchToProps)(main);
 main = connect(mapStateToProps, mapDispatchToProps)(main);
 
 export default main;
