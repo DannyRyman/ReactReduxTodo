@@ -5,14 +5,13 @@ import TodoList from './todolist';
 import { toggleShowCompleted } from '../../actions'
 
 let main = ({showCompleted, activeTodos, completedTodos, toggleShowCompleted}) => {	
-
 	return (			
 			<div>
 				<AppBar title="TODO List"></AppBar>
 
 				<TodoList items={activeTodos} includeAddRow={true} />
 
-				{ completedTodos.length > 0 ? (
+				{ completedTodos.size > 0 ? (
 					<FlatButton label={showCompleted ? 'Hide Completed' : 'Show Completed'} primary={true} onClick={toggleShowCompleted}></FlatButton>
 					): null}
 
@@ -24,10 +23,10 @@ let main = ({showCompleted, activeTodos, completedTodos, toggleShowCompleted}) =
 }
 
 const mapStateToProps = (state) => {
-	return {
-		showCompleted: state.ui.showCompleted,
-		activeTodos: state.todos.filter((todo) => todo.completed !== true),
-		completedTodos: state.todos.filter((todo) => todo.completed === true)
+	return {		
+		showCompleted: state.get('ui').get('showCompleted'),
+		activeTodos: state.get('todos').filter((todo) => todo.get('completed') !== true),
+		completedTodos: state.get('todos').filter((todo) => todo.get('completed') === true)
 	}
 	return state;
 }

@@ -17,3 +17,10 @@ export const enterAddState = () => {
 		type: 'ENTER_ADD_STATE'
 	}
 }
+
+export const addTodo = (todoText) => {
+	return {
+		type: 'ADD_TODO',
+		text: todoText
+	}
+}
