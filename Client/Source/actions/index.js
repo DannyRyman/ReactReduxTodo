@@ -7,6 +7,13 @@ const createInitialDataRetrievedAction = (initialData) => {
 	}
 }
 
+const createAddTodoAction = (newTodo) => {
+	return {
+		type: 'ADD_TODO',
+		newTodo: newTodo
+	}
+}
+
 export const loadInitialTodos = () => {
 	return function (dispatch) {
 		// todo add to configuration
@@ -37,8 +44,18 @@ export const enterAddState = () => {
 }
 
 export const addTodo = (todoText) => {
-	return {
-		type: 'ADD_TODO',
-		text: todoText
+	return function (dispatch) {
+		// todo add to configuration
+		return fetch('http://localhost:38892/api/todo', {
+			method: 'post',
+			headers: new Headers({
+				'Content-Type': 'application/json'
+			}),
+			body: JSON.stringify({
+				description: todoText,
+				completed: false
+			})})
+			.then(response => response.json())
+			.then(newTodo => dispatch(createAddTodoAction(newTodo)));
 	}
 }

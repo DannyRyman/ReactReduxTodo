@@ -3,11 +3,11 @@ import Immutable from 'immutable'
 // {"id":"5b27888f-62c7-41f7-a4c0-2ecf6d3ed01f","description":"Call john about stuff","completed":false}
 const initialState = Immutable.fromJS({
 	todos: [],
-	 ui: {
+	ui: {
 	 	showCompleted:false,
 	 	state:'DEFAULT',
 	 	isInitialised: false	
-	 }	 
+	} 
 });
 
 function todoApp(state = initialState, action) {
@@ -26,7 +26,7 @@ function todoApp(state = initialState, action) {
 			return state.update('ui', (t) => t.set('state', 'ADDING_ITEM'))
 		case 'ADD_TODO':
 			let newState = state.update('todos', (todoList) => {				
-				var todoItem = Immutable.Map({"id":"123", "description": action.text, "completed": false});				
+				var todoItem = Immutable.Map(action.newTodo);				
 				return todoList.push(todoItem);
 			});
 			return newState.update('ui', (t) => t.set('state', 'DEFAULT'));
