@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using Marvin.JsonPatch;
 using TodoList.Models;
 using TodoList.Support.Repositories;
 
@@ -54,6 +55,20 @@ namespace TodoList.Controllers
             item.UpdateFrom(updatedItem);
 
             //repository.UpdateItem(item);
+            return Ok();
+        }
+
+        [HttpPatch]
+        public IHttpActionResult Patch(Guid id, [FromBody] JsonPatchDocument<TodoItem> todoItemPatchDocument)
+        {
+            var item = repository.GetItemById(id);
+
+            if (item == null)
+            {
+                return NotFound();
+            }
+
+            todoItemPatchDocument.ApplyTo(item);
             return Ok();
         }
 

@@ -13,9 +13,9 @@ namespace TodoList.Models
 
         public Guid Id { get; }
 
-        public string Description { get; private set; }
+        public string Description { get; set; }
 
-        public bool Completed { get; private set; }
+        public bool Completed { get; set; }
 
         public void UpdateFrom(TodoItem item)
         {

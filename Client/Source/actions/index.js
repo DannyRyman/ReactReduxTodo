@@ -14,6 +14,14 @@ const createAddTodoAction = (newTodo) => {
 	}
 }
 
+const createTodoStatusChangeAction = (todoId, isCompleted) => {
+	return {
+		type: 'TODO_STATUS_CHANGE',
+		todoId: todoId,
+		isCompleted: isCompleted
+	}
+}
+
 export const loadInitialTodos = () => {
 	return function (dispatch) {
 		// todo add to configuration
@@ -24,10 +32,15 @@ export const loadInitialTodos = () => {
 }
 
 export const completeTodo = (todoId, isCompleted) => {
-	return {
-		type: 'TODO_STATUS_CHANGE',
-		todoId: todoId,
-		isCompleted: isCompleted
+	return function (dispatch) {
+		// todo add to configuration
+		return fetch('http://localhost:38892/api/todo/' + todoId, {
+			method: 'patch',
+			headers: new Headers({
+				'Content-Type': 'application/json'
+			}),
+			body: JSON.stringify([{ "op": "replace", "path":"/completed", "value":isCompleted }])})
+			.then(response => dispatch(createTodoStatusChangeAction(todoId, isCompleted)));
 	}
 }
 
